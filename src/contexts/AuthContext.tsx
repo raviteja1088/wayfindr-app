@@ -32,13 +32,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (session?.user) {
           // Fetch user role
           setTimeout(async () => {
-            const { data: roleData } = await supabase
+            const { data: roleData, error: roleError } = await supabase
               .from('user_roles')
               .select('role')
-              .eq('user_id', session.user.id)
-              .single();
+              .eq('user_id', session.user.id);
             
-            setUserRole(roleData?.role ?? null);
+            if (!roleError && (!roleData || roleData.length === 0)) {
+              // No role assigned yet, create default student role
+              const { error: insertError } = await supabase
+                .from('user_roles')
+                .insert({ user_id: session.user.id, role: 'student' });
+              
+              if (!insertError) {
+                setUserRole('student');
+              } else {
+                setUserRole(null);
+              }
+            } else {
+              setUserRole(roleData?.[0]?.role ?? null);
+            }
           }, 0);
         } else {
           setUserRole(null);
@@ -54,13 +66,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       
       if (session?.user) {
         setTimeout(async () => {
-          const { data: roleData } = await supabase
+          const { data: roleData, error: roleError } = await supabase
             .from('user_roles')
             .select('role')
-            .eq('user_id', session.user.id)
-            .single();
+            .eq('user_id', session.user.id);
           
-          setUserRole(roleData?.role ?? null);
+          if (!roleError && (!roleData || roleData.length === 0)) {
+            // No role assigned yet, create default student role
+            const { error: insertError } = await supabase
+              .from('user_roles')
+              .insert({ user_id: session.user.id, role: 'student' });
+            
+            if (!insertError) {
+              setUserRole('student');
+            } else {
+              setUserRole(null);
+            }
+          } else {
+            setUserRole(roleData?.[0]?.role ?? null);
+          }
         }, 0);
       }
       setLoading(false);
