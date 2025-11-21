@@ -113,7 +113,9 @@ const StudentDashboard = () => {
 
         // Play sound
         const audio = new Audio('/beep.mp3');
-        audio.play().catch(console.error);
+      audio.play().catch(() => {
+        // Audio playback failed - user interaction may be required
+      });
 
         // Show toast
         toast.success(`Bus is approaching ${profile.stop_name}!`, {

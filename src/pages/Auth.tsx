@@ -15,7 +15,6 @@ const signUpSchema = z.object({
   email: z.string().email('Invalid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   fullName: z.string().min(2, 'Full name must be at least 2 characters'),
-  role: z.enum(['admin', 'driver', 'student'], { required_error: 'Please select a role' }),
 });
 
 const signInSchema = z.object({
@@ -30,7 +29,7 @@ const Auth = () => {
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin');
 
   const [signInForm, setSignInForm] = useState({ email: '', password: '' });
-  const [signUpForm, setSignUpForm] = useState({ email: '', password: '', fullName: '', role: '' });
+  const [signUpForm, setSignUpForm] = useState({ email: '', password: '', fullName: '' });
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,7 +70,7 @@ const Auth = () => {
         signUpForm.email,
         signUpForm.password,
         signUpForm.fullName,
-        signUpForm.role
+        'student'
       );
       
       if (error) {
@@ -174,19 +173,6 @@ const Auth = () => {
                     onChange={(e) => setSignUpForm({ ...signUpForm, password: e.target.value })}
                     required
                   />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signup-role">I am a</Label>
-                  <Select value={signUpForm.role} onValueChange={(value) => setSignUpForm({ ...signUpForm, role: value })}>
-                    <SelectTrigger id="signup-role">
-                      <SelectValue placeholder="Select your role" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="student">Student</SelectItem>
-                      <SelectItem value="driver">Driver</SelectItem>
-                      <SelectItem value="admin">Admin</SelectItem>
-                    </SelectContent>
-                  </Select>
                 </div>
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}

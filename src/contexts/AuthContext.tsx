@@ -96,7 +96,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         .insert([{ user_id: data.user.id, role: role as any }]);
       
       if (roleError) {
-        console.error('Error creating user role:', roleError);
+        return { error: roleError };
       }
     }
 
