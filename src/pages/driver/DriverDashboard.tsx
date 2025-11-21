@@ -29,7 +29,7 @@ const DriverDashboard = () => {
       .single();
 
     if (error) {
-      console.error('Error fetching bus:', error);
+      toast.error('Failed to fetch bus information');
     } else {
       setBus(data);
     }
@@ -62,12 +62,12 @@ const DriverDashboard = () => {
           },
         ]);
 
-        if (error) {
-          console.error('Error updating location:', error);
-        }
+      if (error) {
+        toast.error('Failed to update location');
+      }
       },
       (error) => {
-        console.error('Error getting location:', error);
+        toast.error('Unable to access location');
         toast.error('Failed to get your location');
         stopTracking();
       },
