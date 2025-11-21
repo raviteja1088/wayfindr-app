@@ -50,6 +50,13 @@ export type Database = {
             referencedRelation: "buses"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "bus_locations_bus_id_fkey"
+            columns: ["bus_id"]
+            isOneToOne: false
+            referencedRelation: "buses_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       buses: {
@@ -151,6 +158,13 @@ export type Database = {
             referencedRelation: "buses"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "stops_bus_id_fkey"
+            columns: ["bus_id"]
+            isOneToOne: false
+            referencedRelation: "buses_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       student_bus_assignments: {
@@ -180,6 +194,13 @@ export type Database = {
             referencedRelation: "buses"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "student_bus_assignments_bus_id_fkey"
+            columns: ["bus_id"]
+            isOneToOne: false
+            referencedRelation: "buses_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       user_roles: {
@@ -205,7 +226,33 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      buses_public: {
+        Row: {
+          bus_number: string | null
+          created_at: string | null
+          id: string | null
+          is_active: boolean | null
+          route_name: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          bus_number?: string | null
+          created_at?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          route_name?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          bus_number?: string | null
+          created_at?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          route_name?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
